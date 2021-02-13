@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 
 
 def save():
@@ -9,13 +10,22 @@ def save():
     user = user_entry.get()
     password = password_entry.get()
 
-    # Add to the txt file
-    with open("pass-manager-data.txt", mode='a') as file:
-        file.write(f'{website} | {user} | {password}\n')
+    # Verify details before saving
+    confirm = messagebox.askokcancel(title="Information submitted",
+                                     message=f"These are the details submitted: \n"
+                                             f"Website: {website}\n"
+                                             f"Email/Username: {user}\n"
+                                             f"Password: {password}\n"
+                                             f"Is it okay to save?")
 
-    # Clear the entry file
-    website_entry.delete(0, "end")
-    password_entry.delete(0, "end")
+    if confirm:
+        # Add to the txt file
+        with open("pass-manager-data.txt", mode='a') as file:
+            file.write(f'{website} | {user} | {password}\n')
+
+        # Clear the entry file
+        website_entry.delete(0, "end")
+        password_entry.delete(0, "end")
 
 
 # App Interface
