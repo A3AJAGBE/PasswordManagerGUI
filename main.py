@@ -1,5 +1,23 @@
 from tkinter import *
 
+
+def save():
+    """This function saves the information in a text file"""
+
+    # Get the data in the entries
+    website = website_entry.get()
+    user = user_entry.get()
+    password = password_entry.get()
+
+    # Add to the txt file
+    with open("pass-manager-data.txt", mode='a') as file:
+        file.write(f'{website} | {user} | {password}\n')
+
+    # Clear the entry file
+    website_entry.delete(0, "end")
+    password_entry.delete(0, "end")
+
+
 # App Interface
 interface = Tk()
 interface.title("A3AJAGBE OFFLINE PASSWORD-MANAGER")
@@ -35,7 +53,7 @@ password_entry.grid(column=1, row=3)
 generate_button = Button(text="Generate Password", padx=5, pady=5)
 generate_button.grid(column=0, row=4)
 
-add_button = Button(text="Add Information", padx=5, pady=5, fg="#fc1352")
+add_button = Button(text="Add Information", padx=5, pady=5, fg="#fc1352", command=save)
 add_button.grid(column=1, row=4)
 
 # Keep the app open until exited
