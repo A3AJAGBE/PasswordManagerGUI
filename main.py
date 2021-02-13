@@ -17,11 +17,13 @@ website_label.grid(column=0, row=1)
 
 website_entry = Entry(width=30)
 website_entry.grid(column=1, row=1)
+website_entry.focus()
 
 user_label = Label(text="Email or Username:")
 user_label.grid(column=0, row=2)
 
 user_entry = Entry(width=30)
+user_entry.insert(END, "a3ajagbe@gmail.com")
 user_entry.grid(column=1, row=2)
 
 password_label = Label(text="Password:")
