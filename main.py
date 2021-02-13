@@ -10,22 +10,27 @@ def save():
     user = user_entry.get()
     password = password_entry.get()
 
-    # Verify details before saving
-    confirm = messagebox.askokcancel(title="Information submitted",
-                                     message=f"These are the details submitted: \n"
-                                             f"Website: {website}\n"
-                                             f"Email/Username: {user}\n"
-                                             f"Password: {password}\n"
-                                             f"Is it okay to save?")
+    # Prevent empty field submission
+    if len(website) == 0 or len(user) == 0 or len(password) == 0:
+        messagebox.showwarning(title="Warning",
+                               message="Empty fields cannot be submitted")
+    else:
+        # Verify details before saving
+        confirm = messagebox.askokcancel(title="Information submitted",
+                                         message=f"These are the details submitted: \n"
+                                                 f"Website: {website}\n"
+                                                 f"Email/Username: {user}\n"
+                                                 f"Password: {password}\n"
+                                                 f"Is it okay to save?")
 
-    if confirm:
-        # Add to the txt file
-        with open("pass-manager-data.txt", mode='a') as file:
-            file.write(f'{website} | {user} | {password}\n')
+        if confirm:
+            # Add to the txt file
+            with open("pass-manager-data.txt", mode='a') as file:
+                file.write(f'{website} | {user} | {password}\n')
 
-        # Clear the entry file
-        website_entry.delete(0, "end")
-        password_entry.delete(0, "end")
+            # Clear the entry file
+            website_entry.delete(0, "end")
+            password_entry.delete(0, "end")
 
 
 # App Interface
