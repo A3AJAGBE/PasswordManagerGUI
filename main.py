@@ -78,6 +78,35 @@ def save():
             password_entry.delete(0, "end")
 
 
+def search():
+    """This function searches the json file to retrieve details"""
+
+    # Get the data to search
+    website = website_entry.get()
+    lookup = website.title()
+
+    # Add to the json file
+    try:
+        with open("pass-manager-data.json", mode='r') as file:
+            # Read or load the existing data
+            data = json.load(file)
+    except FileNotFoundError:
+        messagebox.showerror(title="Error",
+                             message="Invalid Data file.")
+    else:
+        if lookup in data:
+            messagebox.showinfo(title="Information Details",
+                                message=f'Search result for "{lookup}": \n'
+                                        f"Email/Username: {data[lookup]['Email/Username']}\n"
+                                        f"Password: {data[lookup]['Password']}")
+        else:
+            messagebox.showwarning(title="Invalid Search",
+                                   message=f'The details for "{lookup}" does not exist.')
+    finally:
+        # Clear the entry data
+        website_entry.delete(0, "end")
+
+
 # App Interface
 interface = Tk()
 interface.title("A3AJAGBE OFFLINE PASSWORD-MANAGER")
@@ -90,7 +119,7 @@ canvas.create_image(65, 65, image=bg_image)
 canvas.grid(column=0, columnspan=2, row=0)
 
 # UI Layout
-search_button = Button(text="Search", padx=5, pady=5, fg="#fc1352")
+search_button = Button(text="Search", padx=5, pady=5, fg="#fc1352", command=search)
 search_button.grid(column=2, row=1)
 
 website_label = Label(text="Website:")
