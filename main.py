@@ -1,6 +1,7 @@
 import random
 from tkinter import *
 from tkinter import messagebox
+import json
 
 
 def generate_password():
@@ -42,25 +43,24 @@ def save():
     user = user_entry.get()
     password = password_entry.get()
 
+    # Format the details to json
+    new_data = {
+        website: {
+            "Email/Username": user,
+            "Password": password,
+        }
+    }
+
     # Prevent empty field submission
     if len(website) == 0 or len(user) == 0 or len(password) == 0:
         messagebox.showwarning(title="Warning",
                                message="Empty fields cannot be submitted")
     else:
-        # Verify details before saving
-        confirm = messagebox.askokcancel(title="Information submitted",
-                                         message=f"These are the details submitted: \n"
-                                                 f"Website: {website}\n"
-                                                 f"Email/Username: {user}\n"
-                                                 f"Password: {password}\n"
-                                                 f"Is it okay to save?")
+        # Add to the json file
+        with open("pass-manager-data.json", mode='w') as file:
+            json.dump(new_data, file, indent=4)
 
-        if confirm:
-            # Add to the txt file
-            with open("pass-manager-data.txt", mode='a') as file:
-                file.write(f'{website} | {user} | {password}\n')
-
-            # Clear the entry file
+            # Clear the entry data
             website_entry.delete(0, "end")
             password_entry.delete(0, "end")
 
