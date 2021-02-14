@@ -45,7 +45,7 @@ def save():
 
     # Format the details to json
     new_data = {
-        website: {
+        website.title(): {
             "Email/Username": user,
             "Password": password,
         }
@@ -57,8 +57,16 @@ def save():
                                message="Empty fields cannot be submitted")
     else:
         # Add to the json file
-        with open("pass-manager-data.json", mode='w') as file:
-            json.dump(new_data, file, indent=4)
+        with open("pass-manager-data.json", mode='r') as file:
+            # Read or load the existing data
+            data = json.load(file)
+
+            # Update the data with the new one
+            data.update(new_data)
+
+        with open("pass-manager-data.json", mode="w") as file:
+            # Save the updated details
+            json.dump(data, file, indent=4)
 
             # Clear the entry data
             website_entry.delete(0, "end")
