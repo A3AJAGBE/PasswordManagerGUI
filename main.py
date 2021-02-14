@@ -56,18 +56,23 @@ def save():
         messagebox.showwarning(title="Warning",
                                message="Empty fields cannot be submitted")
     else:
-        # Add to the json file
-        with open("pass-manager-data.json", mode='r') as file:
-            # Read or load the existing data
-            data = json.load(file)
-
+        try:
+            # Add to the json file
+            with open("pass-manager-data.json", mode='r') as file:
+                # Read or load the existing data
+                data = json.load(file)
+        except FileNotFoundError:
+            with open("pass-manager-data.json", mode='w') as file:
+                # Read or load the existing data
+                json.dump(new_data, file, indent=4)
+        else:
             # Update the data with the new one
             data.update(new_data)
 
-        with open("pass-manager-data.json", mode="w") as file:
-            # Save the updated details
-            json.dump(data, file, indent=4)
-
+            with open("pass-manager-data.json", mode="w") as file:
+                # Save the updated details
+                json.dump(data, file, indent=4)
+        finally:
             # Clear the entry data
             website_entry.delete(0, "end")
             password_entry.delete(0, "end")
